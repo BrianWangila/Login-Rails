@@ -1,6 +1,9 @@
 require_relative "boot"
 
 require "rails/all"
+require 'digest'
+require "bcrypt"
+
 # require "active_model/railtie"
 # require "active_record/railtie"
 # require "active_controller/railtie"

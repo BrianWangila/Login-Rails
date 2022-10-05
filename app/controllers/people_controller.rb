@@ -2,14 +2,16 @@ class PeopleController < ApplicationController
 
   #the following should run only if you are authorized
   before_action :authorized?
-  skip_before_action :authorized?, only: [:login]
+  skip_before_action :authorized?, only: [:login, :create_account]
 
   def login
+    hashed_password = Digest::MD5.new
     username = params[:username]
-    password = params[:password]
+    hashed_password.update(params[:password])
+
 
     user = Person.where(
-      username: username, password: password
+      username: username, password: hashed_password.hexdigest
     ).first
 
     if user
@@ -26,6 +28,18 @@ class PeopleController < ApplicationController
       }, status: :unauthorized
     end
   end
+
+
+  def create_account
+    hashed_password = Digest::MD5.new
+    hashed_password.update(params[:password])
+
+    brian = Person.create(username: params[:username], password: hashed_password.hexdigest)
+    render json: {
+      message: "Successfully creating account"
+    }, status: :created
+  end
+
 
   def show
     users = Person.all

@@ -13,4 +13,9 @@ Rails.application.routes.draw do
   delete "/people/logout", to: "people#logout"
   get "/people/show", to: "people#show"
 
+  post "/people/create", to: "people#create_account"
+
+  post "users/create", to: "user#create"
+  post "users/login", to: "user#login"
+
 end
